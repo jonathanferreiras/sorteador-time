@@ -188,18 +188,69 @@ label {
   border-radius: 8px;
   margin-bottom: 10px;
   color: var(--text-color-light);
+  gap: 10px;
+  overflow: hidden;
+}
+
+.player-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 0;
+}
+
+.player-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .player-item {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .player-info {
+    width: 100%;
+    padding-right: 0;
+  }
+  
+  .player-actions {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  
+  .player-actions::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .player-actions::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 2px;
+  }
+  
+  .player-actions::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .action-btn {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    min-width: 60px;
+    text-align: center;
+  }
 }
 
 .dark-mode .player-item {
   background: var(--player-bg-dark);
   color: var(--text-color-dark);
-}
-
-.player-info {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 8px 0;
 }
 
 .notification {
@@ -348,6 +399,15 @@ label {
 .player-actions {
   display: flex;
   gap: 10px;
+  flex-shrink: 0;
+}
+
+.player-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .action-btn {
@@ -489,6 +549,15 @@ label {
   .teams-container {
     grid-template-columns: 1fr;
   }
+  
+  .team-card {
+    padding: 15px;
+  }
+  
+  .team-stats {
+    flex-direction: row;
+    gap: 8px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -498,5 +567,20 @@ label {
 
   .modal-content {
     padding: 20px;
+  }
+  
+  .team-card {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+  
+  .team-player {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 0;
+  }
+  
+  .team-stats {
+    padding: 8px;
   }
 }
