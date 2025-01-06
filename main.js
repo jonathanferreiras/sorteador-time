@@ -6,8 +6,8 @@ function toggleTheme() {
   // Atualizar ícones
   const sunIcon = document.getElementById('sun-icon');
   const moonIcon = document.getElementById('moon-icon');
-  sunIcon.style.display = isDark ? 'none' : 'block';
-  moonIcon.style.display = isDark ? 'block' : 'none';
+  sunIcon.style.display = isDark ? 'block' : 'none';
+  moonIcon.style.display = isDark ? 'none' : 'block';
   
   // Salvar preferência
   localStorage.setItem('theme', isDark ? 'dark' : 'light');

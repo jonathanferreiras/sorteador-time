@@ -664,17 +664,21 @@ label {
 }
 
 #sun-icon {
+  display: block;
   opacity: 1;
 }
 
 #moon-icon {
-  opacity: 0;
+  display: none;
+  opacity: 1;
 }
 
 .dark-mode #sun-icon {
-  opacity: 0;
+  display: none;
+  opacity: 1;
 }
 
 .dark-mode #moon-icon {
+  display: block;
   opacity: 1;
 }
