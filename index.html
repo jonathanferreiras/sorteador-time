@@ -3,18 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jogo Fácil</title>
+  <title>Jogo Fácil - Sorteio de Times Online Grátis para Futebol, Vôlei e Esportes</title>
+  <meta name="description" content="Sorteie times equilibrados para futebol, vôlei e outros esportes de forma rápida e fácil. Crie times justos com nosso sistema inteligente de balanceamento. Experimente grátis!">
+  <meta name="keywords" content="sorteio de times, futebol, vôlei, esportes, times equilibrados, sorteio de jogadores, dividir times, criar times, balanceamento de times, jogos em grupo">
+  <meta name="author" content="Jonathan Ferreira">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.jogofacil.com.br" />
+  <meta name="geo.region" content="BR" />
+  <meta name="geo.placename" content="Brasil" /> 
+  <meta name="language" content="pt-BR">
+  <meta name="revisit-after" content="7 days">
+  <meta name="rating" content="general">
+  <meta name="distribution" content="global">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/images/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+  <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="JogaFácil" />
+  <link rel="manifest" href="/assets/images/site.webmanifest" />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.jogofacil.com.br">
+  <meta property="og:title" content="Jogo Fácil - Sorteio de Times para Futebol, Vôlei e Esportes">
+  <meta property="og:description" content="Sorteie times equilibrados para futebol, vôlei e outros esportes. Crie times justos de forma rápida e fácil. Experimente agora!">
+  <meta property="og:image" content="https://www.jogofacil.com.br/assets/images/web-app-manifest-512x512.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://www.jogofacil.com.br">
+  <meta property="twitter:title" content="Jogo Fácil - Sorteio de Times para Futebol, Vôlei e Esportes">
+  <meta property="twitter:description" content="Sorteie times equilibrados para futebol, vôlei e outros esportes. Crie times justos de forma rápida e fácil. Experimente agora!">
+  <meta property="twitter:image" content="https://www.jogofacil.com.br/assets/web-app-manifest-512x512.png">
+
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Jogo Fácil",
+    "description": "Ferramenta online para sorteio de times equilibrados para diversos esportes",
+    "applicationCategory": "Sports",
+    "operatingSystem": "Web",
+    "url": "https://www.jogofacil.com.br",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.00",
+      "priceCurrency": "BRL"
+    }
+  }
+  </script>
 </head>
 <body>
-  <div class="theme-icons-container">
-    <img id="sun-icon" src="assets/icons/sun.svg" alt="Light mode" class="theme-icon">
-    <img id="moon-icon" src="assets/icons/moon.svg" alt="Dark mode" class="theme-icon">
-  </div>
-  <div class="container">
+  <header class="theme-icons-container" aria-label="Seletor de tema">    
+      <img id="sun-icon" src="assets/icons/sun.svg" alt="Light mode" class="theme-icon" loading="lazy" width="24" height="24" aria-hidden="true">
+      <img id="moon-icon" src="assets/icons/moon.svg" alt="Dark mode" class="theme-icon" loading="lazy" width="24" height="24" aria-hidden="true">
+  </header>
+  <main class="container">
     <!-- Tela 1: Configuração -->
     <div id="screen1" class="screen">
       <h1>Jogo Fácil</h1>
@@ -74,7 +125,7 @@
         <button id="newSortButton" class="btn btn-primary">Novo Sorteio</button>
       </div>
     </div>
-  </div>
+  </main>
 
   <!-- Modal Adicionar/Editar Jogador -->
   <div id="playerModal" class="modal" style="display: none;">
@@ -101,8 +152,8 @@
     </div>
   </div>
   <script type="module" src="main.js"></script>
-  <footer class="footer">
-    <button id="supportButton" class="btn-support">Apoie o projeto ❤️</button>
+  <footer class="footer" role="contentinfo">
+        <button id="supportButton" class="btn-support" role="button" aria-label="Apoiar o projeto">Apoie o projeto ❤️</button>
     <p>🚀 Powered by <a href="https://www.linkedin.com/in/jonathanferreiras/" target="_blank" rel="noopener noreferrer">Jonathan Ferreira</a></p>
     <!-- <p>Desenvolvido com ❤️ para facilitar seus jogos</p> -->
   </footer>
