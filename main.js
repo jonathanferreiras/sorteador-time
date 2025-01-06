@@ -529,22 +529,22 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Verificar limite máximo de jogadores
-    const maxPlayers = playersPerTeam * totalTeams;
-    if (players.length >= maxPlayers) {
-      showNotification(`✖ Limite máximo de ${maxPlayers} jogadores atingido (${playersPerTeam} por time)`);
-      return;
-    }
-    
-    // Verificar se algum time já atingiu o limite
-    const teamsCount = Array(totalTeams).fill(0);
-    players.forEach(player => {
-      if (player.fixedTeam !== undefined) {
-        teamsCount[player.fixedTeam]++;
+    // Verificar limite máximo de jogadores apenas ao adicionar novo jogador
+    if (editingIndex === -1) {
+      const maxPlayers = playersPerTeam * totalTeams;
+      if (players.length >= maxPlayers) {
+        showNotification(`✖ Limite máximo de ${maxPlayers} jogadores atingido (${playersPerTeam} por time)`);
+        return;
       }
-    });
-    
-    if (editingIndex === -1) { // Apenas para novos jogadores
+      
+      // Verificar se algum time já atingiu o limite
+      const teamsCount = Array(totalTeams).fill(0);
+      players.forEach(player => {
+        if (player.fixedTeam !== undefined) {
+          teamsCount[player.fixedTeam]++;
+        }
+      });
+      
       const teamWithSpace = teamsCount.findIndex(count => count < playersPerTeam);
       if (teamWithSpace === -1) {
         showNotification(`✖ Todos os times já atingiram o limite de ${playersPerTeam} jogadores`);
@@ -578,6 +578,9 @@ document.addEventListener('DOMContentLoaded', () => {
     modalTitle.textContent = 'Editar Jogador';
     saveButton.textContent = 'Salvar';
     playerModal.style.display = 'flex';
+    
+    // Remover validação de limite máximo ao editar
+    saveButton.disabled = false;
   }
 
   function deletePlayer(index) {
