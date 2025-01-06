@@ -50,7 +50,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyPixButton = document.getElementById('copyPixButton');
   const pixCode = document.getElementById('pixCode');
 
-  // Abrir modal de apoio
+  // Contar visitas e abrir modal com probabilidade
+  let visitCount = parseInt(localStorage.getItem('visitCount') || '0');
+  
+  visitCount++;
+  localStorage.setItem('visitCount', visitCount.toString());
+
+  // 20% de chance a cada visita ou 100% na 3ª visita se não abriu nas 2 anteriores
+  const random = Math.random();
+  if (random < 0.2 || visitCount >= 3) {
+    supportModal.style.display = 'flex';
+    localStorage.setItem('visitCount', '0'); // Resetar contador
+  }
+
+  // Abrir modal de apoio manualmente
   supportButton.addEventListener('click', () => {
     supportModal.style.display = 'flex';
   });
