@@ -1,11 +1,13 @@
 // Funções de tema
 function toggleTheme() {
   const body = document.body;
-  const themeToggle = document.getElementById('themeToggle');
   const isDark = body.classList.toggle('dark-mode');
   
-  // Atualizar ícone e texto
-  themeToggle.innerHTML = isDark ? '☀️' : '🌙';
+  // Atualizar ícones
+  const sunIcon = document.getElementById('sun-icon');
+  const moonIcon = document.getElementById('moon-icon');
+  sunIcon.style.display = isDark ? 'none' : 'block';
+  moonIcon.style.display = isDark ? 'block' : 'none';
   
   // Salvar preferência
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
@@ -13,14 +15,17 @@ function toggleTheme() {
 
 function applySavedTheme() {
   const savedTheme = localStorage.getItem('theme') || 'light';
-  const themeToggle = document.getElementById('themeToggle');
+  const sunIcon = document.getElementById('sun-icon');
+  const moonIcon = document.getElementById('moon-icon');
   
   if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
-    themeToggle.innerHTML = '☀️';
+    sunIcon.style.display = 'none';
+    moonIcon.style.display = 'block';
   } else {
     document.body.classList.remove('dark-mode');
-    themeToggle.innerHTML = '🌙';
+    sunIcon.style.display = 'block';
+    moonIcon.style.display = 'none';
   }
 }
 
@@ -29,11 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const screen1 = document.getElementById('screen1');
   const themeToggle = document.getElementById('themeToggle');
   
+  // Configurar ícones de tema
+  const sunIcon = document.getElementById('sun-icon');
+  const moonIcon = document.getElementById('moon-icon');
+  sunIcon.addEventListener('click', toggleTheme);
+  moonIcon.addEventListener('click', toggleTheme);
+  
   // Aplicar tema salvo
   applySavedTheme();
-  
-  // Configurar botão de tema
-  themeToggle.addEventListener('click', toggleTheme);
   const screen2 = document.getElementById('screen2');
   const screen3 = document.getElementById('screen3');
   const gameType = document.getElementById('gameType');
