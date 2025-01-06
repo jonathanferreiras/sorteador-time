@@ -305,13 +305,30 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Distribuir jogadores usando o método serpentina e balanceamento
-    let currentTeamIndex = 0;
-    let direction = 1;
-
-    // Depois distribuir jogadores não fixados
-    sortedPlayers.forEach((player) => {
+    // Agrupar jogadores por rating
+    const playersByRating = {};
+    sortedPlayers.forEach(player => {
       if (player.fixedTeam === undefined) {
+        if (!playersByRating[player.rating]) {
+          playersByRating[player.rating] = [];
+        }
+        playersByRating[player.rating].push(player);
+      }
+    });
+
+    // Distribuir jogadores mantendo o equilíbrio
+    Object.values(playersByRating).forEach(playersWithSameRating => {
+      // Embaralhar jogadores com o mesmo rating
+      for (let i = playersWithSameRating.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [playersWithSameRating[i], playersWithSameRating[j]] = [playersWithSameRating[j], playersWithSameRating[i]];
+      }
+
+      // Distribuir jogadores alternando entre times
+      let currentTeamIndex = 0;
+      let direction = 1;
+      
+      playersWithSameRating.forEach(player => {
         // Encontrar o próximo time que ainda tem espaço
         while (teams[currentTeamIndex].players.length >= playersPerTeam) {
           if (currentTeamIndex === 0) direction = 1;
@@ -323,12 +340,12 @@ document.addEventListener('DOMContentLoaded', () => {
           teams[currentTeamIndex].players.push(player);
           teams[currentTeamIndex].totalRating += parseInt(player.rating);
           
-          // Atualizar índice do time usando padrão serpentina
+          // Alternar time
           if (currentTeamIndex === 0) direction = 1;
           if (currentTeamIndex === totalTeams - 1) direction = -1;
           currentTeamIndex += direction;
         }
-      }
+      });
     });
 
     // Calcular médias
