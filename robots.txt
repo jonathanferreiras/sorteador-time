@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.jogofacil.com.br/sitemap.xml
+
+# Desabilitar rastreamento de arquivos desnecessários
+Disallow: /assets/
+Disallow: /node_modules/
+Disallow: /package.json
+Disallow: /package-lock.json
