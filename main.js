@@ -29,10 +29,48 @@ function applySavedTheme() {
   }
 }
 
+// Função para copiar texto para área de transferência
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    showNotification('Código PIX copiado!');
+  }).catch(() => {
+    showNotification('Erro ao copiar código PIX');
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Elementos do DOM
   const screen1 = document.getElementById('screen1');
   const themeToggle = document.getElementById('themeToggle');
+  
+  // Modal de apoio
+  const supportButton = document.getElementById('supportButton');
+  const supportModal = document.getElementById('supportModal');
+  const closeModal = document.querySelector('#supportModal .close-modal');
+  const copyPixButton = document.getElementById('copyPixButton');
+  const pixCode = document.getElementById('pixCode');
+
+  // Abrir modal de apoio
+  supportButton.addEventListener('click', () => {
+    supportModal.style.display = 'flex';
+  });
+
+  // Fechar modal ao clicar no X
+  closeModal.addEventListener('click', () => {
+    supportModal.style.display = 'none';
+  });
+
+  // Fechar modal ao clicar fora
+  window.addEventListener('click', (event) => {
+    if (event.target === supportModal) {
+      supportModal.style.display = 'none';
+    }
+  });
+
+  // Copiar código PIX
+  copyPixButton.addEventListener('click', () => {
+    copyToClipboard(pixCode.textContent);
+  });
   
   // Configurar ícones de tema
   const sunIcon = document.getElementById('sun-icon');
