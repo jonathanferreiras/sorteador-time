@@ -97,6 +97,8 @@ body.dark-mode {
   width: 100%;
   max-width: 800px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding-bottom: 100px; /* Espaço extra para o footer */
+  margin-bottom: 20px; /* Espaço extra na parte inferior */
 }
 
 .dark-mode .container {
@@ -706,6 +708,7 @@ label {
   color: #333;
   font-size: 0.9em;
   border-top: 1px solid #eee;
+  z-index: 100; /* Garante que o footer fique acima do conteúdo */
 }
 
 .footer a {
@@ -828,34 +831,45 @@ label {
 
 /* Responsividade */
 @media (max-width: 480px) {
-  .pix-code-container {
-    flex-direction: column;
-    gap: 8px;
+  .container {
+    padding: 20px;
+    padding-bottom: 120px; /* Mais espaço para mobile */
   }
   
-  #pixCode {
-    font-size: 0.8em;
+  body {
+    padding-bottom: 60px; /* Espaço extra para o footer em mobile */
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+  
+  .team-card {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+  
+  .team-player {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 0;
+  }
+  
+  .team-stats {
+    padding: 8px;
   }
 }
 
-/* Estilos do botão de fechar modal */
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--border-color-light);
-}
-
-.dark-mode .modal-header {
-  border-bottom-color: var(--border-color-dark);
 }
 
 #supportModal h2 {
   margin: 0;
   flex: 1;
-  margin-bottom: 0;
 }
 
 .close-modal {
@@ -872,6 +886,7 @@ label {
   width: 30px;
   height: 30px;
   margin-left: 10px;
+  position: static;
 }
 
 .close-modal:hover {
