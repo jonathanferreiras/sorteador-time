@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sorteador de Times</title>
+  <title>Jogo Fácil</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,8 @@
   <div class="container">
     <!-- Tela 1: Configuração -->
     <div id="screen1" class="screen">
-      <h1>Configuração do Sorteio</h1>
+      <h1>Jogo Fácil</h1>
+      <h2>Configuração do Sorteio</h2>
       <div class="form-group">
         <label for="gameType">Tipo de Jogo</label>
         <select id="gameType" class="form-control">
@@ -48,7 +49,8 @@
 
     <!-- Tela 2: Adicionar Jogadores -->
     <div id="screen2" class="screen" style="display: none;">
-      <h1>Jogadores Adicionados</h1>
+      <h1>Jogo Fácil</h1>
+      <h2>Jogadores Adicionados</h2>
       <div class="header-container">
         <button id="addPlayerBtn" class="btn btn-primary">Adicionar</button>
       </div>
@@ -64,7 +66,8 @@
 
     <!-- Tela 3: Times Sorteados -->
     <div id="screen3" class="screen" style="display: none;">
-      <h1>Times Sorteados</h1>
+      <h1>Jogo Fácil</h1>
+      <h2>Times Sorteados</h2>
       <div id="teamsContainer" class="teams-container"></div>
       <div class="button-container">
         <button id="backToPlayersButton" class="btn btn-secondary">Voltar</button>
@@ -98,5 +101,29 @@
     </div>
   </div>
   <script type="module" src="main.js"></script>
+  <footer class="footer">
+    <button id="supportButton" class="btn-support">Apoie o projeto ❤️</button>
+    <p>🚀 Powered by <a href="https://www.linkedin.com/in/jonathanferreiras/" target="_blank" rel="noopener noreferrer">Jonathan Ferreira</a></p>
+    <!-- <p>Desenvolvido com ❤️ para facilitar seus jogos</p> -->
+  </footer>
+
+  <!-- Modal de Apoio -->
+  <div id="supportModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Apoie o Projeto ❤️</h2>
+        <span class="close-modal">&times;</span>
+      </div>
+      <p >"Criamos este aplicativo com muito amor para facilitar seus jogos e ajudar você no que for preciso. Se ele foi útil de alguma forma, considere fazer uma doação para manter o projeto no ar e continuar beneficiando mais pessoas.
+        Mas, se não for possível contribuir no momento, sinta-se à vontade para usar gratuitamente. É uma alegria imensa poder ajudar!"</p>
+      <p class="support-text">Apoie o projeto com um Pix de qualquer valor!</p>
+      <div class="pix-code-container">
+        <p id="pixCode">a47ed8d2-f15e-46b4-9dfe-a2b03e51fe01</p>
+        <button id="copyPixButton" class="btn-copy">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        </button>
+      </div>     
+    </div>
+  </div>
 </body>
 </html>

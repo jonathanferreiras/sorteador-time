@@ -113,7 +113,14 @@ h1 {
   text-align: center;
 }
 
-.dark-mode h1 {
+h2 {
+  color: var(--text-color-light);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.dark-mode h1,
+.dark-mode h2 {
   color: var(--text-color-dark);
 }
 
@@ -681,4 +688,210 @@ label {
 .dark-mode #moon-icon {
   display: block;
   opacity: 1;
+}
+
+/* Estilos do rodapé */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 0.9em;
+  border-top: 1px solid #eee;
+}
+
+.footer a {
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.dark-mode .footer {
+  background: rgba(30, 30, 47, 0.9);
+  color: #f0f0f0;
+  border-top: 1px solid #444;
+}
+
+.dark-mode .footer a {
+  color: white;
+}
+
+/* Estilos do botão de apoio */
+.btn-support {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.btn-support:hover {
+  background: #43a047;
+}
+
+.dark-mode .btn-support {
+  background: #388e3c;
+}
+
+.dark-mode .btn-support:hover {
+  background: #2e7d32;
+}
+
+/* Estilos da modal de apoio */
+#supportModal .modal-content {
+  max-width: 350px;
+  text-align: center;
+}
+
+#supportModal h2 {
+  margin-bottom: 15px;
+}
+
+.pix-code-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+.dark-mode .pix-code-container {
+  background: #2d2d44;
+}
+
+#pixCode {
+  font-family: monospace;
+  font-size: 0.9em;
+  word-break: break-all;
+  margin: 0;
+}
+
+.btn-copy {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.btn-copy:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.dark-mode .btn-copy {
+  color: #aaa;
+}
+
+.dark-mode .btn-copy:hover {
+  background: #444;
+  color: #f0f0f0;
+}
+
+.support-text {
+  color: #666;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+.dark-mode .support-text {
+  color: #aaa;
+}
+
+/* Animação de cópia */
+@keyframes copied {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.copied {
+  animation: copied 0.3s ease;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .pix-code-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  #pixCode {
+    font-size: 0.8em;
+  }
+}
+
+/* Estilos do botão de fechar modal */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color-light);
+}
+
+.dark-mode .modal-header {
+  border-bottom-color: var(--border-color-dark);
+}
+
+#supportModal h2 {
+  margin: 0;
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.close-modal {
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--text-color-light);
+  background: none;
+  border: none;
+  padding: 5px;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.close-modal:hover {
+  opacity: 0.8;
+}
+
+.dark-mode .close-modal {
+  color: var(--text-color-dark);
+}
+
+/* Estilos da modal de apoio */
+#supportModal {
+  color: var(--text-color-light);
+}
+
+#supportModal h2 {
+  color: var(--text-color-light);
+  margin-bottom: 0;
+}
+
+.dark-mode #supportModal {
+  color: var(--text-color-dark);
+}
+
+.dark-mode #supportModal h2 {
+  color: var(--text-color-dark);
 }
