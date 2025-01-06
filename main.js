@@ -65,8 +65,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Funções auxiliares
   function updateTotalPlayers() {
-    const total = calculateTotalPlayers();
+    // Recalcular total baseado no modo atual
+    let total;
+    if (gameType.value === 'customizado') {
+      total = playersPerTeam * totalTeams;
+    } else {
+      // Modos pré-definidos
+      switch(gameType.value) {
+        case 'volei':
+          total = 6 * totalTeams;
+          break;
+        case 'futebolCampo':
+          total = 11 * totalTeams;
+          break;
+        case 'futebolSalao':
+          total = 5 * totalTeams;
+          break;
+        case 'futebolSete':
+          total = 7 * totalTeams;
+          break;
+        default:
+          total = 6 * totalTeams;
+      }
+    }
+    
+    // Remover jogadores excedentes se necessário
+    if (players.length > total) {
+      players = players.slice(0, total);
+      showNotification(`✖ Removidos ${players.length - total} jogadores excedentes`);
+    }
+    
     totalPlayersSpan.textContent = total;
+    playersPerTeam = total / totalTeams;
+    
+    // Atualizar contadores e lista de jogadores
+    updatePlayerCounters();
+    updatePlayersList();
+    
     return total;
   }
 
@@ -115,11 +150,25 @@ document.addEventListener('DOMContentLoaded', () => {
       ratingBadge.className = 'player-rating';
       ratingBadge.textContent = player.rating;
       
+      // Adicionar indicador de time fixado
+      if (player.fixedTeam !== undefined) {
+        const fixedTeamBadge = document.createElement('span');
+        fixedTeamBadge.className = 'fixed-team-badge';
+        fixedTeamBadge.textContent = `Time ${player.fixedTeam + 1}`;
+        playerInfo.appendChild(fixedTeamBadge);
+      }
+      
       playerInfo.appendChild(playerText);
       playerInfo.appendChild(ratingBadge);
       
       const actionsDiv = document.createElement('div');
       actionsDiv.className = 'player-actions';
+      
+      // Botão de fixar time
+      const fixButton = document.createElement('button');
+      fixButton.className = 'action-btn';
+      fixButton.textContent = 'Fixar';
+      fixButton.onclick = () => toggleFixedTeam(index);
       
       const editButton = document.createElement('button');
       editButton.className = 'action-btn';
@@ -131,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
       deleteButton.textContent = 'Excluir';
       deleteButton.onclick = () => deletePlayer(index);
       
+      actionsDiv.appendChild(fixButton);
       actionsDiv.appendChild(editButton);
       actionsDiv.appendChild(deleteButton);
       
@@ -143,7 +193,89 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePlayerCounters();
   }
 
+  function toggleFixedTeam(index) {
+    const player = players[index];
+    const modal = document.createElement('div');
+    modal.className = 'fixed-team-modal';
+    
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal-content';
+    
+    const title = document.createElement('h3');
+    title.textContent = 'Fixar jogador em time específico';
+    
+    const options = document.createElement('div');
+    options.className = 'fixed-team-options';
+    
+    // Adicionar opção "Nenhum" como default
+    const noneOption = document.createElement('button');
+    noneOption.className = `fixed-team-option ${player.fixedTeam === undefined ? 'selected' : ''}`;
+    noneOption.textContent = 'Nenhum';
+    noneOption.onclick = () => {
+      player.fixedTeam = undefined;
+      updatePlayersList();
+      modal.remove();
+    };
+    
+    options.appendChild(noneOption);
+    
+    // Adicionar opções de times
+    for (let i = 0; i < totalTeams; i++) {
+      const teamOption = document.createElement('button');
+      teamOption.className = `fixed-team-option ${player.fixedTeam === i ? 'selected' : ''}`;
+      teamOption.textContent = `Time ${i + 1}`;
+      teamOption.onclick = () => {
+        // Verificar se o time já atingiu o limite
+        const playersInTeam = players.filter(p => p.fixedTeam === i).length;
+        if (playersInTeam >= playersPerTeam) {
+          showNotification(`✖ Time ${i + 1} já atingiu o limite de ${playersPerTeam} jogadores`);
+          return;
+        }
+        player.fixedTeam = i;
+        updatePlayersList();
+        modal.remove();
+      };
+      options.appendChild(teamOption);
+    }
+    
+    modalContent.appendChild(title);
+    modalContent.appendChild(options);
+    modal.appendChild(modalContent);
+    
+    // Fechar modal ao clicar fora
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        modal.remove();
+      }
+    };
+    
+    document.body.appendChild(modal);
+  }
+
   function sortTeams() {
+    // Verificar se o número total de jogadores não excede o permitido
+    const maxPlayers = playersPerTeam * totalTeams;
+    if (players.length > maxPlayers) {
+      showNotification(`✖ Número máximo de jogadores excedido (${maxPlayers} - ${playersPerTeam} por time)`);
+      return;
+    }
+    
+    // Verificar se todos os times têm espaço para os jogadores restantes
+    const teamsCount = Array(totalTeams).fill(0);
+    players.forEach(player => {
+      if (player.fixedTeam !== undefined) {
+        teamsCount[player.fixedTeam]++;
+      }
+    });
+    
+    const remainingPlayers = players.length - teamsCount.reduce((sum, count) => sum + count, 0);
+    const availableSpaces = teamsCount.reduce((sum, count) => sum + (playersPerTeam - count), 0);
+    
+    if (remainingPlayers > availableSpaces) {
+      showNotification(`✖ Não há espaço suficiente nos times para todos os jogadores`);
+      return;
+    }
+
     // Ordenar jogadores por nota (decrescente)
     const sortedPlayers = [...players].sort((a, b) => b.rating - a.rating);
     const teams = Array.from({ length: totalTeams }, () => ({
@@ -152,18 +284,43 @@ document.addEventListener('DOMContentLoaded', () => {
       averageRating: 0
     }));
 
+    // Primeiro distribuir jogadores fixados
+    sortedPlayers.forEach(player => {
+      if (player.fixedTeam !== undefined) {
+        // Verificar se o time fixado já atingiu o limite
+        if (teams[player.fixedTeam].players.length < playersPerTeam) {
+          teams[player.fixedTeam].players.push(player);
+          teams[player.fixedTeam].totalRating += parseInt(player.rating);
+        } else {
+          showNotification(`✖ Time ${player.fixedTeam + 1} já atingiu o limite de ${playersPerTeam} jogadores`);
+        }
+      }
+    });
+
     // Distribuir jogadores usando o método serpentina e balanceamento
     let currentTeamIndex = 0;
     let direction = 1;
 
+    // Depois distribuir jogadores não fixados
     sortedPlayers.forEach((player) => {
-      teams[currentTeamIndex].players.push(player);
-      teams[currentTeamIndex].totalRating += parseInt(player.rating);
-
-      // Atualizar índice do time usando padrão serpentina
-      if (currentTeamIndex === 0) direction = 1;
-      if (currentTeamIndex === totalTeams - 1) direction = -1;
-      currentTeamIndex += direction;
+      if (player.fixedTeam === undefined) {
+        // Encontrar o próximo time que ainda tem espaço
+        while (teams[currentTeamIndex].players.length >= playersPerTeam) {
+          if (currentTeamIndex === 0) direction = 1;
+          if (currentTeamIndex === totalTeams - 1) direction = -1;
+          currentTeamIndex += direction;
+        }
+        
+        if (teams[currentTeamIndex].players.length < playersPerTeam) {
+          teams[currentTeamIndex].players.push(player);
+          teams[currentTeamIndex].totalRating += parseInt(player.rating);
+          
+          // Atualizar índice do time usando padrão serpentina
+          if (currentTeamIndex === 0) direction = 1;
+          if (currentTeamIndex === totalTeams - 1) direction = -1;
+          currentTeamIndex += direction;
+        }
+      }
     });
 
     // Calcular médias
@@ -262,29 +419,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const type = gameType.value;
     customPlayersContainer.style.display = type === 'customizado' ? 'block' : 'none';
     
+    let newPlayersPerTeam;
     switch(type) {
       case 'volei':
-        playersPerTeam = 6;
+        newPlayersPerTeam = 6;
         break;
       case 'futebolCampo':
-        playersPerTeam = 11;
+        newPlayersPerTeam = 11;
         break;
       case 'futebolSalao':
-        playersPerTeam = 5;
+        newPlayersPerTeam = 5;
         break;
       case 'futebolSete':
-        playersPerTeam = 7;
+        newPlayersPerTeam = 7;
         break;
       case 'customizado':
-        playersPerTeam = parseInt(customPlayers.value);
+        newPlayersPerTeam = parseInt(customPlayers.value);
         break;
     }
+    
+    const maxPlayers = newPlayersPerTeam * totalTeams;
+    
+    // Remover jogadores excedentes se necessário
+    if (players.length > maxPlayers) {
+      players = players.slice(0, maxPlayers);
+      showNotification(`✖ Removidos jogadores excedentes`);
+    }
+    
+    playersPerTeam = newPlayersPerTeam;
     updateTotalPlayers();
+    updatePlayersList();
   });
 
   customPlayers.addEventListener('change', () => {
     if (gameType.value === 'customizado') {
-      playersPerTeam = parseInt(customPlayers.value);
+      const newPlayersPerTeam = parseInt(customPlayers.value);
+      const maxPlayers = newPlayersPerTeam * totalTeams;
+      
+      if (players.length > maxPlayers) {
+        // Remover jogadores excedentes
+        players = players.slice(0, maxPlayers);
+        showNotification(`✖ Removidos jogadores excedentes`);
+        updatePlayersList();
+      }
+      
+      playersPerTeam = newPlayersPerTeam;
       updateTotalPlayers();
     }
   });
@@ -304,7 +483,19 @@ document.addEventListener('DOMContentLoaded', () => {
     playerModal.style.display = 'flex';
   });
 
-  saveButton.addEventListener('click', () => {
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      // Remove notification after 4 seconds
+      setTimeout(() => {
+        notification.remove();
+      }, 4000);
+    }
+
+    saveButton.addEventListener('click', () => {
     const name = playerName.value.trim();
     const rating = parseInt(playerRating.value);
     
@@ -320,18 +511,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return existingName === normalizedName &&
         (editingIndex === -1 || index !== editingIndex);
     });
-    
-    function showNotification(message) {
-      const notification = document.createElement('div');
-      notification.className = 'notification';
-      notification.textContent = message;
-      document.body.appendChild(notification);
-      
-      // Remove notification after 4 seconds
-      setTimeout(() => {
-        notification.remove();
-      }, 4000);
-    }
 
     if (nameExists) {
       showNotification('✖ Já existe um jogador com esse nome');
@@ -348,6 +527,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (/[^a-zA-ZÀ-ÿ\s'-]/.test(name)) {
       showNotification('✖ Use apenas letras, espaços e hífens');
       return;
+    }
+
+    // Verificar limite máximo de jogadores
+    const maxPlayers = playersPerTeam * totalTeams;
+    if (players.length >= maxPlayers) {
+      showNotification(`✖ Limite máximo de ${maxPlayers} jogadores atingido (${playersPerTeam} por time)`);
+      return;
+    }
+    
+    // Verificar se algum time já atingiu o limite
+    const teamsCount = Array(totalTeams).fill(0);
+    players.forEach(player => {
+      if (player.fixedTeam !== undefined) {
+        teamsCount[player.fixedTeam]++;
+      }
+    });
+    
+    if (editingIndex === -1) { // Apenas para novos jogadores
+      const teamWithSpace = teamsCount.findIndex(count => count < playersPerTeam);
+      if (teamWithSpace === -1) {
+        showNotification(`✖ Todos os times já atingiram o limite de ${playersPerTeam} jogadores`);
+        return;
+      }
     }
 
     if (name && rating) {
