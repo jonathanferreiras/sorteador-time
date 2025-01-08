@@ -503,7 +503,7 @@ label {
   padding: 30px;
   border-radius: 15px;
   width: 90%;
-  max-width: 400px;
+  max-width: 500px;
   margin-top: 20px;
 }
 
@@ -754,7 +754,7 @@ label {
 
 /* Estilos da modal de apoio */
 #supportModal .modal-content {
-  max-width: 350px;
+  max-width: 450px;
   text-align: center;
 }
 
@@ -774,7 +774,7 @@ label {
 }
 
 .dark-mode .pix-code-container {
-  background: #2d2d44;
+  background: #252538;
 }
 
 #pixCode {
@@ -861,15 +861,15 @@ label {
 }
 
 .modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
+  text-align: center;
   margin-bottom: 20px;
 }
 
 #supportModal h2 {
   margin: 0;
-  flex: 1;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .close-modal {
@@ -885,8 +885,9 @@ label {
   justify-content: center;
   width: 30px;
   height: 30px;
-  margin-left: 10px;
-  position: static;
+  position: absolute;
+  right: -20px;
+  top: -20px;
 }
 
 .close-modal:hover {
@@ -917,4 +918,13 @@ label {
 
 .dark-mode .team-header h2 {
   color: #000000;
+}
+
+/* Estilos do logo */
+.logo-header {
+  display: block;
+  margin: 0 auto 10px;
+  width: 280px;
+  height: auto;
+  transition: all 0.3s ease;
 }

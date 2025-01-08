@@ -9,12 +9,24 @@ function toggleTheme() {
   sunIcon.style.display = isDark ? 'block' : 'none';
   moonIcon.style.display = isDark ? 'none' : 'block';
   
+  // Atualizar logo
+  const logo = document.getElementById('logo');
+  if (logo) {
+    logo.src = isDark ? 
+      'assets/icons/logo-dark.png' : 
+      'assets/icons/logo-light.png';
+  }
+  
   // Salvar preferência
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
 function applySavedTheme() {
-  const savedTheme = localStorage.getItem('theme') || 'light';
+  // Verifica o tema preferido do sistema
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  // Verifica o tema salvo no localStorage
+  const savedTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
   const sunIcon = document.getElementById('sun-icon');
   const moonIcon = document.getElementById('moon-icon');
   
@@ -90,6 +102,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const moonIcon = document.getElementById('moon-icon');
   sunIcon.addEventListener('click', toggleTheme);
   moonIcon.addEventListener('click', toggleTheme);
+  
+  // Verificar tema salvo no localStorage
+  const savedTheme = localStorage.getItem('theme');
+  const isDark = savedTheme === 'dark';
+  const logo = document.getElementById('logo');
+  if (logo) {
+    logo.src = isDark ? 
+      'assets/icons/logo-dark.png' : 
+      'assets/icons/logo-light.png';
+  }
   
   // Aplicar tema salvo
   applySavedTheme();
