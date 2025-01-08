@@ -9,13 +9,13 @@ function toggleTheme() {
   sunIcon.style.display = isDark ? 'block' : 'none';
   moonIcon.style.display = isDark ? 'none' : 'block';
   
-  // Atualizar logo
-  const logo = document.getElementById('logo');
-  if (logo) {
+  // Atualizar logos
+  const logos = document.querySelectorAll('.logo');
+  logos.forEach(logo => {
     logo.src = isDark ? 
       'assets/icons/logo-dark.png' : 
       'assets/icons/logo-light.png';
-  }
+  });
   
   // Salvar preferência
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
