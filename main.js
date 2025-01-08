@@ -106,12 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Verificar tema salvo no localStorage
   const savedTheme = localStorage.getItem('theme');
   const isDark = savedTheme === 'dark';
-  const logo = document.getElementById('logo');
-  if (logo) {
+  const logos = document.querySelectorAll('.logo');
+  logos.forEach(logo => {
     logo.src = isDark ? 
       'assets/icons/logo-dark.png' : 
       'assets/icons/logo-light.png';
-  }
+  });
   
   // Aplicar tema salvo
   applySavedTheme();
