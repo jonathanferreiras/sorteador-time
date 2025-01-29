@@ -12,6 +12,14 @@ export default defineConfig({
         {
           src: 'assets/**/*',
           dest: 'assets'
+        },
+        {
+          src: 'robots.txt',
+          dest: '.'
+        },
+        {
+          src: 'sitemap.xml',
+          dest: '.'
         }
       ]
     })
